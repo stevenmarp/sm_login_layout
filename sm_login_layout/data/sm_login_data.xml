@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- single settings record, read as sudo by the login page so no write happens on a GET -->
+    <record id="sm_login_settings_singleton" model="sm.login.settings">
+        <field name="name">Login Layout</field>
+    </record>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Reusable background snippet. It is dropped inside the form slot (t-out=0) of the
+         login, signup and reset pages, which is the one region kept in place whether the
+         plain login layout or the website layout wraps the page. The element is fixed
+         positioned, so its place in the DOM does not matter. -->
+    <template id="sm_login_bg" name="Login Background">
+        <t t-set="sm_login" t-value="request.env['sm.login.settings'].sudo()._sm_login_config() if request else {}"/>
+        <t t-if="sm_login.get('enabled')">
+            <div class="sm-login-bg"
+                 t-att-data-design="sm_login.get('design')"
+                 t-att-data-day="sm_login.get('day')"
+                 t-att-data-night="sm_login.get('night')"
+                 t-att-data-night-enabled="'1' if sm_login.get('night_enabled') else '0'"
+                 t-att-data-night-start="sm_login.get('night_start')"
+                 t-att-data-night-end="sm_login.get('night_end')"
+                 t-att-data-interval="sm_login.get('interval')"
+                 t-attf-style="--sm-overlay: {{sm_login.get('overlay_color')}}; --sm-overlay-op: {{sm_login.get('overlay_opacity')}}; --sm-card-op: {{sm_login.get('card_opacity')}}; --sm-blur: {{sm_login.get('blur')}}px;">
+                <div class="sm-login-overlay"/>
+            </div>
+        </t>
+    </template>
+
+    <!-- All three pages share the same root node: a call to web.login_layout. Anchoring on
+         it works on every Odoo version and survives the website layout override. -->
+    <template id="sm_login_form" inherit_id="web.login" name="SM Login Background">
+        <xpath expr="//t[@t-call='web.login_layout']" position="inside">
+            <t t-call="sm_login_layout.sm_login_bg"/>
+        </xpath>
+    </template>
+
+    <template id="sm_signup_form" inherit_id="auth_signup.signup" name="SM Signup Background">
+        <xpath expr="//t[@t-call='web.login_layout']" position="inside">
+            <t t-call="sm_login_layout.sm_login_bg"/>
+        </xpath>
+    </template>
+
+    <template id="sm_reset_form" inherit_id="auth_signup.reset_password" name="SM Reset Background">
+        <xpath expr="//t[@t-call='web.login_layout']" position="inside">
+            <t t-call="sm_login_layout.sm_login_bg"/>
+        </xpath>
+    </template>
+
+    <!-- centering wrapper for the plain (non website) login layout -->
+    <template id="sm_login_layout" inherit_id="web.login_layout" name="SM Login Wrap">
+        <xpath expr="//div[hasclass('container')]" position="attributes">
+            <attribute name="class" add="sm-login-wrap" separator=" "/>
+        </xpath>
+    </template>
+</odoo>

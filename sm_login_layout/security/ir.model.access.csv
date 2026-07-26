@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_sm_login_settings_manager,sm.login.settings.manager,model_sm_login_settings,base.group_system,1,1,1,1
+access_sm_login_wallpaper_manager,sm.login.wallpaper.manager,model_sm_login_wallpaper,base.group_system,1,1,1,1

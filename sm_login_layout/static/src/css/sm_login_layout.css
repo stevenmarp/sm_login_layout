@@ -1,0 +1,206 @@
+/* Background Login Layout - activated by the frontend script adding
+   `sm-login-active` and `sm-login-design-N` to <body>. Everything is scoped to
+   those classes so nothing leaks onto the website or backend. */
+
+.sm-login-bg {
+    display: none !important;
+}
+
+.sm-login-bg .sm-login-overlay {
+    display: none !important;
+}
+
+body.sm-login-active {
+    min-height: 100vh;
+    background: transparent !important;
+}
+
+body.sm-login-active::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: #11151c;
+    background-image: var(--sm-login-image, none);
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    filter: blur(var(--sm-blur, 0px));
+    transform: scale(1.03);
+    opacity: var(--sm-login-image-op, 1);
+    transition: opacity 0.5s ease-in-out;
+    pointer-events: none;
+}
+
+body.sm-login-active::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background: var(--sm-overlay, #000000);
+    opacity: var(--sm-overlay-op, 0.45);
+    pointer-events: none;
+}
+
+body.sm-login-active #wrapwrap,
+body.sm-login-active #wrapwrap > header,
+body.sm-login-active #wrapwrap > main,
+body.sm-login-active #wrapwrap > footer {
+    position: relative;
+    z-index: 1;
+}
+
+body.sm-login-active #wrapwrap,
+body.sm-login-active #wrapwrap > main,
+body.sm-login-active .o_main_navbar + .o_action_manager,
+body.sm-login-active .o_website_login_container,
+body.sm-login-active .oe_website_login_container {
+    background: transparent !important;
+}
+
+body.sm-login-active .sm-login-wrap {
+    position: relative;
+    z-index: 1;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-width: none;
+}
+
+body.sm-login-active #wrapwrap > main {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5vh 16px;
+}
+
+/* card selector covers the plain login (.card.o_database_list) and the
+   website themed login (.oe_website_login_container) */
+body.sm-login-active .sm-login-wrap .card.o_database_list,
+body.sm-login-active .oe_website_login_container {
+    position: relative;
+    z-index: 2;
+    max-width: 340px;
+    width: 100%;
+    margin: 0 auto;
+    border-radius: 14px;
+    background-color: rgba(255, 255, 255, var(--sm-card-op, 1));
+    box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(3px);
+    padding: 8px;
+}
+
+/* on the website login, push the card to the vertical middle over our background */
+body.sm-login-active .oe_website_login_container {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+body.sm-login-active .oe_website_login_container > *:not(.sm-login-bg),
+body.sm-login-active .sm-login-wrap .card.o_database_list > * {
+    position: relative;
+    z-index: 2;
+}
+
+body.sm-login-active .oe_website_login_container .oe_login_form.d-none {
+    display: block !important;
+}
+
+body.sm-login-active .oe_website_login_container,
+body.sm-login-active .oe_website_login_container label,
+body.sm-login-active .oe_website_login_container a {
+    color: #1f2937;
+}
+
+/* Design 1 - centered card (the default arrangement above) */
+
+/* Design 2 - split screen: card pinned to the left, image on the right */
+body.sm-login-design-2 .sm-login-wrap,
+body.sm-login-design-2 #wrapwrap > main {
+    justify-content: flex-start;
+    padding-left: 6%;
+}
+body.sm-login-design-2 .sm-login-overlay {
+    background: linear-gradient(90deg,
+        var(--sm-overlay, #000) 0%,
+        var(--sm-overlay, #000) 38%,
+        rgba(0, 0, 0, 0.15) 38%,
+        rgba(0, 0, 0, 0.15) 100%);
+    opacity: var(--sm-overlay-op, 0.6);
+}
+body.sm-login-design-2 .oe_website_login_container {
+    margin-left: 0;
+    margin-right: auto;
+}
+
+/* Design 3 - floating glass card, strong blur behind it */
+body.sm-login-design-3::before {
+    filter: blur(calc(var(--sm-blur, 0px) + 6px));
+}
+body.sm-login-design-3 .sm-login-wrap .card.o_database_list {
+    background-color: rgba(255, 255, 255, calc(var(--sm-card-op, 1) * 0.72));
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+body.sm-login-design-3 .oe_website_login_container {
+    background-color: rgba(255, 255, 255, calc(var(--sm-card-op, 1) * 0.72));
+    backdrop-filter: blur(14px);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* Design 4 - card on the right */
+body.sm-login-design-4 .sm-login-wrap,
+body.sm-login-design-4 #wrapwrap > main {
+    justify-content: flex-end;
+    padding-right: 7%;
+}
+body.sm-login-design-4 .oe_website_login_container {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+/* Design 5 - colour panel behind the card */
+body.sm-login-design-5 .sm-login-wrap .card.o_database_list,
+body.sm-login-design-5 .oe_website_login_container {
+    box-shadow: 0 0 35px 5px color-mix(in srgb, var(--sm-overlay, #0E2D59) 55%, transparent),
+                0 18px 50px rgba(0, 0, 0, 0.35) !important;
+}
+body.sm-login-design-5 .sm-login-wrap .card.o_database_list::before,
+body.sm-login-design-5 .oe_website_login_container::before {
+    display: none !important;
+}
+
+/* Design 6 - branded top bar */
+body.sm-login-design-6 .sm-login-wrap,
+body.sm-login-design-6 #wrapwrap > main {
+    align-items: flex-start;
+    padding-top: 14vh;
+}
+body.sm-login-design-6 .sm-login-wrap::before,
+body.sm-login-design-6 #wrapwrap::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 10px;
+    z-index: 9999;
+    background: var(--sm-overlay, #0E2D59);
+}
+body.sm-login-design-6 .sm-login-wrap .card.o_database_list,
+body.sm-login-design-6 .oe_website_login_container {
+    border-top: 5px solid var(--sm-overlay, #0E2D59) !important;
+    margin-top: 10vh !important;
+    margin-bottom: auto !important;
+}
+
+@media (max-width: 575px) {
+    body.sm-login-active .sm-login-wrap,
+    body.sm-login-active #wrapwrap > main {
+        justify-content: center !important;
+        padding: 4vh 12px !important;
+        align-items: center !important;
+    }
+}
